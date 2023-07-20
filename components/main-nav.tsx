@@ -2,7 +2,6 @@
 
 import { cn } from "@/lib/utils"
 import { Select} from "antd";
-import { Option } from "antd/lib/mentions";
 import Link from "next/link";
 import { useParams, usePathname, useRouter } from "next/navigation";
 
@@ -67,12 +66,11 @@ export function MainNav({className, ...props}:React.HtmlHTMLAttributes<HTMLEleme
 
 
 const onSelectCategory = (value: string) => {
-    const filtered = routes?.filter((route) => route.label === value);
-    if (filtered) {
-        router.push(filtered[0]?.href)
-    }
-   
-  };
+    if (value) {
+       const filtered = routes?.filter((route) => route.label === value);
+    return   router.push(filtered[0]?.href)
+   }
+ };
 
    
 
