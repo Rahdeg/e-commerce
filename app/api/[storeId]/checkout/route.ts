@@ -24,13 +24,15 @@ export async function POST(
     }
 
     const products = await prismadb.product.findMany({
-        where:{
-            id: {
-                in: productIds
-            }
-        }
-    });
+        where: {
+          id: {
+            in: productIds
+          }
+        },
+        
+      });
 
+    console.log('pro',products)
     
     const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
 

@@ -1,13 +1,20 @@
 "use client"
 
 import { cn } from "@/lib/utils"
+import { Select} from "antd";
+import { Option } from "antd/lib/mentions";
 import Link from "next/link";
-import { useParams, usePathname } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
+
+  
+  
 
 export function MainNav({className, ...props}:React.HtmlHTMLAttributes<HTMLElement>) {
     const params = useParams();
     const pathname = usePathname();
-    
+    const router = useRouter();
+
+   
 
     const routes =[
         {
@@ -54,8 +61,25 @@ export function MainNav({className, ...props}:React.HtmlHTMLAttributes<HTMLEleme
 
     ];
 
+    interface SelectProps {
+  onValueChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+}
+
+
+const onSelectCategory = (value: string) => {
+    const filtered = routes?.filter((route) => route.label === value);
+    if (filtered) {
+        router.push(filtered[0]?.href)
+    }
+   
+  };
+
+   
+
+
     return (
-        <nav className={cn('flex items-center space-x-4 lg:space-x-6', className)}>
+        <>
+        <nav className={cn('md:flex hidden items-center space-x-4 lg:space-x-6', className)}>
             {
                 routes.map((route)=>(
                     <Link href={route.href} key={route.href} className={cn(' text-sm font-medium transition-colors hover:text-primary',route.active ? 'text-black dark:text-white' : " text-muted-foreground")}>
@@ -64,5 +88,55 @@ export function MainNav({className, ...props}:React.HtmlHTMLAttributes<HTMLEleme
                 ))
             }
         </nav>
+        <nav className={cn('flex md:hidden items-center space-x-4 lg:space-x-6', className)}>
+        <Select defaultValue=" Overview" size="large"
+                   allowClear
+                   autoFocus= {false}
+                    showSearch
+                    placeholder="Overview"
+                    optionFilterProp="children"
+                    onChange={(val)=> onSelectCategory(val)} bordered={false}
+                    onSearch={(val)=> onSelectCategory(val)}
+                    filterOption={(input, option) =>
+                      (option?.value?.toString() ?? '').toLowerCase().includes(input.toLowerCase())
+                    }
+                    className=" border  rounded-md " style={{width:100}}> 
+                        {
+                          routes?.map((route)=>(
+                            <Select.Option value={route.label} key={`${route.href}`} className={cn(' text-sm font-medium transition-colors hover:text-primary',route.active ? 'text-black dark:text-white' : " text-muted-foreground")}>{route.label}</Select.Option> 
+                          ))
+                        }
+                    </Select>
+
+            
+        </nav>
+        </>
+        
     )
 }
+
+
+{/* <Select >
+<SelectTrigger className="w-[120px]">
+  <SelectValue placeholder="Overview" />
+</SelectTrigger>
+<SelectContent>
+ 
+  {
+              routes.map((route)=>( 
+                  <SelectItem value={route.label} onSelect={()=>onCategorySelect(route.href)} key={route.href} className={cn(' text-sm font-medium transition-colors hover:text-primary',route.active ? 'text-black dark:text-white' : " text-muted-foreground")}>
+                 
+                  {route.label}
+                 
+                
+                 
+                 
+               
+                  </SelectItem>
+              
+              ))
+          }
+ 
+ 
+</SelectContent>
+</Select> */}
