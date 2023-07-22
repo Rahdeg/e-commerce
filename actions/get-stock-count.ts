@@ -7,6 +7,7 @@ const getStockCount = async( storeId : string) =>{
             isArchived: false
         },
     })
+
     return stockCount;
 }
 

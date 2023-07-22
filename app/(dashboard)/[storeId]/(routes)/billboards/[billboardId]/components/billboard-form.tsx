@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { useForm } from 'react-hook-form'
 import Heading from "@/components/ui/heading"
 import { Separator } from "@/components/ui/separator"
-import { Billboard, Store } from "@prisma/client"
+import { Billboard } from "@prisma/client"
 import { Trash } from "lucide-react"
 import { zodResolver } from '@hookform/resolvers/zod'
 import{toast} from 'react-hot-toast'
